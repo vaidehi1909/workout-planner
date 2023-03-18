@@ -9,7 +9,7 @@ const WorkoutCardView = ({ workout = {} }) => {
     <>
       <Card
         title={workout.name}
-        extra={<WorkoutCardActions />}
+        extra={<WorkoutCardActions workout={workout} />}
         hoverable
         className="antd-card-margin"
       >

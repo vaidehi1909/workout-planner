@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Row, Col, Spin } from "antd";
+import { Button, Row, Col, Spin, Empty } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import WorkoutCardView from "./WorkoutCardView";
 import WorkoutModal from "./WorkoutModal";
@@ -41,7 +41,7 @@ const WorkoutLayout = () => {
       )}
 
       <Row>
-        {workouts.map((workout) => {
+        {(workouts || []).map((workout) => {
           return (
             <Col
               key={workout.id}

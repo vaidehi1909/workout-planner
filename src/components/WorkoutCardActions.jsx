@@ -1,26 +1,25 @@
-import React, { useState } from "react";
-import {
-  DeleteOutlined,
-  PlusSquareOutlined,
-  EditOutlined,
-} from "@ant-design/icons";
-import WorkoutModal from "./WorkoutModal";
+import React from "react";
+import { DeleteOutlined, PlusSquareOutlined } from "@ant-design/icons";
 import { Divider, message, Popconfirm } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useDeleteWorkoutMutation } from "../services/workout";
 
-const WorkoutCardActions = () => {
-  const [showWorkoutModal, setShowWorkoutModal] = useState(false);
+const WorkoutCardActions = ({ workout }) => {
   const navigate = useNavigate();
+  const [deleteWorkout, { isLoading: isDeleting }] = useDeleteWorkoutMutation();
 
   const handleGoAddExercise = () => {
-    navigate("/dashboard/addexercise");
+    navigate(`/workouts/${workout.id}`);
   };
-  const onSubmit = () => {
-    setShowWorkoutModal(false);
+
+  const onDelete = () => {
+    deleteWorkout(workout.id)
+      .then(() => {
+        console.log("deleted");
+      })
+      .catch((err) => console.error(err));
   };
-  const onCancel = () => {
-    setShowWorkoutModal(false);
-  };
+
   return (
     <>
       <PlusSquareOutlined
@@ -29,23 +28,16 @@ const WorkoutCardActions = () => {
         }}
       />
       <Divider type="vertical" />
-      <EditOutlined onClick={() => setShowWorkoutModal(true)} />
-      <Divider type="vertical" />
       <Popconfirm
         title="Delete"
-        description="Are you sure to delete this Workout?"
+        description="Are you sure you want to delete this Workout?"
         okText="Yes"
         cancelText="No"
-        // onConfirm={onDelete}
+        okButtonProps={{ loading: isDeleting }}
+        onConfirm={onDelete}
       >
         <DeleteOutlined />
       </Popconfirm>
-      <WorkoutModal
-        showWorkoutModal={showWorkoutModal}
-        onSubmit={onSubmit}
-        onCancel={onCancel}
-        mode={"edit"}
-      />
     </>
   );
 };

@@ -1,9 +1,10 @@
 import React from "react";
 import { Layout } from "antd";
 import AppHeader from "./AppHeader";
+import WorkoutSidebar from "./WorkoutSidebar";
 import { Outlet } from "react-router-dom";
 
-const { Header, Content } = Layout;
+const { Header, Content, Sider } = Layout;
 
 const Dashboard = () => {
   return (
@@ -11,9 +12,14 @@ const Dashboard = () => {
       <Header>
         <AppHeader />
       </Header>
-      <Content>
-        <Outlet />
-      </Content>
+      <Layout>
+        <Sider collapsible style={{ backgroundColor: "#489a7e" }}>
+          <WorkoutSidebar />
+        </Sider>
+        <Content>
+          <Outlet />
+        </Content>
+      </Layout>
     </Layout>
   );
 };

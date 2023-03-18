@@ -2,6 +2,7 @@ import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import { supabase } from "../supabaseClient";
 
 export const authApi = createApi({
+  reducerPath: "authApi",
   baseQuery: fakeBaseQuery(),
   endpoints: (builder) => ({
     login: builder.mutation({

@@ -13,18 +13,15 @@ const LoginForm = () => {
   const [login, { isLoading }] = useLoginMutation();
 
   const onFinish = (values) => {
-    login(values).then(() => navigate("/dashboard"));
+    login(values).then(() => navigate("/workouts"));
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
   const handelGoSignup = () => {
     navigate("/signup");
   };
 
   if (auth.user) {
-    return <Navigate to="/dashboard" state={{ from: location }} />;
+    return <Navigate to="/workouts" state={{ from: location }} />;
   }
 
   return (
@@ -49,7 +46,6 @@ const LoginForm = () => {
             justifyContent: "center",
           }}
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
         >
           <Form.Item
             name="email"

@@ -71,3 +71,12 @@
 .margin-top-10px {
   margin-top: 10px;
 }
+
+.background-white {
+  background-color: white;
+}
+
+.align-right {
+  display: flex;
+  justify-content: flex-end;
+}

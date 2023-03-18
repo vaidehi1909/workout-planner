@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Select } from "antd";
+import { Form, Input, Select, Checkbox } from "antd";
 const typeOptions = [
   {
     value: "back",
@@ -33,19 +33,14 @@ const levelOptions = [
     label: "Reguler",
   },
 ];
-const WorkoutForm = ({ form }) => {
-  // const initialValues = {
-  //   name: "xyz",
-  //   type: "legs",
-  //   level: "reguler",
-  // };
+const WorkoutForm = ({ form, workout }) => {
   return (
     <Form
       form={form}
       name="new_form"
       className="margin-left"
       preserve={false}
-      // initialValues={initialValues}
+      initialValues={workout}
       labelCol={{ span: 4 }}
     >
       <Form.Item
@@ -75,6 +70,13 @@ const WorkoutForm = ({ form }) => {
         rules={[{ required: true, message: "Please Select Level Of Workout!" }]}
       >
         <Select options={levelOptions} />
+      </Form.Item>
+      <Form.Item
+        name="is_public"
+        valuePropName="checked"
+        wrapperCol={{ offset: 8, span: 16 }}
+      >
+        <Checkbox>Mark as Public</Checkbox>
       </Form.Item>
     </Form>
   );

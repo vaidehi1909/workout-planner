@@ -7,7 +7,7 @@ import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
 import WorkoutLayout from "./components/WorkoutLayout";
 import PrivateOutlet from "./PrivateOutlet";
-import WorkoutExerciseLayout from "./components/WorkoutExerciseLayout";
+import WorkoutExerciseLayout from "./components/WorkoutExercise/WorkoutExerciseLayout";
 import { supabase } from "./supabaseClient";
 import { setSession } from "./reducers/authSlice";
 import "./App.css";
@@ -37,9 +37,9 @@ function App() {
         <Route path="login" element={<LoginForm />} />
         <Route path="signup" element={<SignupForm />} />
         <Route path="*" element={<PrivateOutlet />}>
-          <Route path="dashboard" element={<Dashboard />}>
+          <Route path="workouts" element={<Dashboard />}>
             <Route index element={<WorkoutLayout />} />
-            <Route path="addexercise" element={<WorkoutExerciseLayout />} />
+            <Route path=":id" element={<WorkoutExerciseLayout />} />
           </Route>
         </Route>
       </Routes>

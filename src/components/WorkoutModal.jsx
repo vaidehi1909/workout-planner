@@ -9,7 +9,7 @@ const toCapitlize = (word) => {
   return word.charAt(0).toUpperCase() + word.slice(1);
 };
 
-const WorkoutModal = ({ visible, onClose, mode }) => {
+const WorkoutModal = ({ visible, onClose, mode, workout }) => {
   const auth = useAuth();
   const [form] = Form.useForm();
   const [createWorkout, { isLoading }] = useCreateWorkoutMutation();
@@ -39,7 +39,7 @@ const WorkoutModal = ({ visible, onClose, mode }) => {
       destroyOnClose
       maskClosable={false}
     >
-      <WorkoutForm form={form} />
+      <WorkoutForm form={form} workout={workout} />
     </Modal>
   );
 };
