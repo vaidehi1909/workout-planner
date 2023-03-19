@@ -30,13 +30,7 @@ const LoginForm = () => {
   return (
     <div className="display-center">
       <h1>WebFit</h1>
-      <Card
-        title={<h2 className="form-title">LogIn </h2>}
-        bordered={false}
-        style={{
-          width: 500,
-        }}
-      >
+      <Card title={<h2 className="form-title">LogIn </h2>} bordered={false}>
         <Form
           name="basic"
           labelCol={{

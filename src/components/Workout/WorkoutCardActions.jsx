@@ -1,7 +1,7 @@
 import React from "react";
 import {
   DeleteOutlined,
-  PlusSquareOutlined,
+  EditOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
 import { Divider, Popconfirm } from "antd";
@@ -36,7 +36,7 @@ const WorkoutCardActions = ({ workout }) => {
         />
       ) : (
         <>
-          <PlusSquareOutlined
+          <EditOutlined
             onClick={() => {
               handleGoAddExercise();
             }}

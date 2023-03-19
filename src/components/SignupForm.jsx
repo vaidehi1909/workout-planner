@@ -25,9 +25,6 @@ const SignupForm = () => {
       <Card
         title={<h2 className="form-title">Create Account </h2>}
         bordered={false}
-        style={{
-          width: 500,
-        }}
       >
         <Form
           name="basic"
