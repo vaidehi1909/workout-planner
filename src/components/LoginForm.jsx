@@ -4,16 +4,17 @@ import { Button, Form, Input, Card, Divider } from "antd";
 import { useLoginMutation } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { isValidRoute } from "../helper/locationHelper";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const auth = useAuth();
 
-  const [login, { isLoading }] = useLoginMutation();
+  const [login, { isLoading, error }] = useLoginMutation();
 
   const onFinish = (values) => {
-    login(values).then(() => navigate("/workouts"));
+    login(values).then(() => navigate("/my-workouts"));
   };
 
   const handelGoSignup = () => {
@@ -21,7 +22,9 @@ const LoginForm = () => {
   };
 
   if (auth.user) {
-    return <Navigate to="/workouts" state={{ from: location }} />;
+    const prePath = location?.state?.from?.pathname;
+    const toPath = isValidRoute(location) ? prePath : "/my-workouts";
+    return <Navigate to={toPath} state={{ from: location }} />;
   }
 
   return (
@@ -86,6 +89,7 @@ const LoginForm = () => {
             Sign Up
           </Button>
         </Form>
+        {error && <div>{JSON.stringify(error.data)}</div>}
       </Card>
     </div>
   );

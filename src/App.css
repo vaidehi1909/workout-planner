@@ -52,6 +52,10 @@
   background: aliceblue;
   color: #489a7e;
 }
+.ant-layout .ant-layout-sider-trigger {
+  background: #489a7e;
+}
+
 .ant-layout {
   min-height: 100vh;
 }
@@ -61,7 +65,7 @@
 }
 
 .min-hight {
-  min-height: 60px;
+  min-height: 80px;
 }
 
 .margin-bottom {
@@ -79,4 +83,7 @@
 .align-right {
   display: flex;
   justify-content: flex-end;
+}
+.margin-10px {
+  margin: 10px;
 }

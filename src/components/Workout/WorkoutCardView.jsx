@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Typography, Tag, message } from "antd";
-import { GREEN_COLOR } from "../constants";
+import { GREEN_COLOR } from "../../constants";
 import WorkoutCardActions from "./WorkoutCardActions";
 const { Paragraph } = Typography;
 
@@ -14,21 +14,30 @@ const WorkoutCardView = ({ workout = {} }) => {
         className="antd-card-margin"
       >
         <div className="min-hight">
-          {true && (
+          {workout?.type && (
             <Tag color={GREEN_COLOR} className="margin-bottom">
-              Workout Type - {`${workout.type}`}
+              Type - {workout.type}
             </Tag>
           )}
 
-          {true && (
+          {workout?.level && (
             <Tag color={GREEN_COLOR} className="margin-bottom">
-              Workout Level - {`${workout.level}`}
+              Level - {workout.level}
             </Tag>
           )}
+
+          {workout?.description && (
+            <Paragraph
+              ellipsis={{
+                rows: 2,
+              }}
+              type="secondary"
+              className="text-align-left"
+            >
+              {workout?.description}
+            </Paragraph>
+          )}
         </div>
-        <Paragraph type="secondary" className="text-align-left">
-          Created At - {`${workout.created_at}`}
-        </Paragraph>
       </Card>
     </>
   );

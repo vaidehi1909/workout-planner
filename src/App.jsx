@@ -2,15 +2,25 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import "antd/dist/reset.css";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import SignupForm from "./components/SignupForm";
+// import SignupForm from "./components/SignupForm";
 import LoginForm from "./components/LoginForm";
-import Dashboard from "./components/Dashboard";
-import WorkoutLayout from "./components/WorkoutLayout";
-import PrivateOutlet from "./PrivateOutlet";
-import WorkoutExerciseLayout from "./components/WorkoutExercise/WorkoutExerciseLayout";
+// import Dashboard from "./components/Dashboard";
+// import WorkoutLayout from "./components/Workout/WorkoutLayout";
+// import PrivateOutlet from "./PrivateOutlet";
+// import WorkoutExerciseLayout from "./components/WorkoutExercise/WorkoutExerciseLayout";
 import { supabase } from "./supabaseClient";
 import { setSession } from "./reducers/authSlice";
 import "./App.css";
+
+const SignupForm = React.lazy(() => import("./components/SignupForm"));
+const PrivateOutlet = React.lazy(() => import("./PrivateOutlet"));
+const Dashboard = React.lazy(() => import("./components/Dashboard"));
+const WorkoutLayout = React.lazy(() =>
+  import("./components/Workout/WorkoutLayout")
+);
+const WorkoutExerciseLayout = React.lazy(() =>
+  import("./components/WorkoutExercise/WorkoutExerciseLayout")
+);
 
 function App() {
   const dispatch = useDispatch();
@@ -21,7 +31,6 @@ function App() {
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log(`Supabase auth event: ${event}`, session);
         dispatch(setSession(session));
       }
     );
@@ -33,16 +42,22 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="login" element={<LoginForm />} />
-        <Route path="signup" element={<SignupForm />} />
-        <Route path="*" element={<PrivateOutlet />}>
-          <Route path="workouts" element={<Dashboard />}>
-            <Route index element={<WorkoutLayout />} />
-            <Route path=":id" element={<WorkoutExerciseLayout />} />
+      <React.Suspense fallback={<>...</>}>
+        <Routes>
+          <Route path="login" element={<LoginForm />} />
+          <Route path="signup" element={<SignupForm />} />
+          <Route path="*" element={<PrivateOutlet />}>
+            <Route path="my-workouts" element={<Dashboard />}>
+              <Route index element={<WorkoutLayout />} />
+              <Route path=":id" element={<WorkoutExerciseLayout />} />
+            </Route>
+            <Route path="public-workouts" element={<Dashboard />}>
+              <Route index element={<WorkoutLayout />} />
+              <Route path=":id" element={<WorkoutExerciseLayout />} />
+            </Route>
           </Route>
-        </Route>
-      </Routes>
+        </Routes>
+      </React.Suspense>
     </BrowserRouter>
   );
 }

@@ -9,11 +9,16 @@ const { Header, Content, Sider } = Layout;
 const Dashboard = () => {
   return (
     <Layout>
-      <Header>
+      <Header className="antd-header-fix">
         <AppHeader />
       </Header>
       <Layout>
-        <Sider collapsible style={{ backgroundColor: "#489a7e" }}>
+        <Sider
+          collapsible
+          style={{
+            backgroundColor: "#489a7e",
+          }}
+        >
           <WorkoutSidebar />
         </Sider>
         <Content>

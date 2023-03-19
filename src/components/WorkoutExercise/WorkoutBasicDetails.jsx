@@ -1,53 +1,38 @@
 import React, { useState } from "react";
-import { Card, Typography, Tag, message } from "antd";
+import { Card, Typography, Tag, message, Row, Col } from "antd";
 import { GREEN_COLOR } from "../../constants";
-import { EditOutlined } from "@ant-design/icons";
-import WorkoutModal from "../WorkoutModal";
-const { Paragraph } = Typography;
+
+import WorkoutModal from "../Workout/WorkoutModal";
+import WorkoutBasicDetailsActions from "./WorkoutBasicDetailsActions";
+const { Paragraph, Text } = Typography;
 
 const WorkoutBasicDetails = ({ workout }) => {
-  const [showWorkoutModal, setShowWorkoutModal] = useState(false);
-
-  const onClose = () => {
-    setShowWorkoutModal(false);
-  };
   return (
     <>
       <Card
         title="Workout Details"
-        extra={
-          <EditOutlined
-            onClick={() => {
-              setShowWorkoutModal(true);
-            }}
-          />
-        }
+        extra={<WorkoutBasicDetailsActions workout={workout} />}
         hoverable
-        className="antd-card-margin"
+        className="antd-card-margin min-hight"
       >
-        <div className="min-hight">
-          {true && (
-            <Tag color={GREEN_COLOR} className="margin-bottom">
-              Workout Type - {workout.type}
-            </Tag>
-          )}
+        {workout?.name && <h1>{workout?.name}</h1>}
 
-          {true && (
-            <Tag color={GREEN_COLOR} className="margin-bottom">
-              Workout Level - {workout.level}
-            </Tag>
-          )}
-        </div>
-        <Paragraph type="secondary" className="text-align-left">
-          Created At - {workout.created_at}
-        </Paragraph>
+        {workout.type && (
+          <Tag color={GREEN_COLOR} className="margin-bottom">
+            Type - {workout.type}
+          </Tag>
+        )}
+
+        {workout?.level && (
+          <Tag color={GREEN_COLOR} className="margin-bottom">
+            Level - {workout.level}
+          </Tag>
+        )}
+
+        {workout?.description && (
+          <Paragraph type="secondary">{workout.description}</Paragraph>
+        )}
       </Card>
-      <WorkoutModal
-        visible={showWorkoutModal}
-        onClose={onClose}
-        mode={"edit"}
-        workout={workout}
-      />
     </>
   );
 };

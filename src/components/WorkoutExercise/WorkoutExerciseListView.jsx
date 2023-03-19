@@ -1,22 +1,18 @@
 import React, { useState } from "react";
-import { Card, Col, Row, Button, Form, Modal, Spin } from "antd";
-import AddExerciseForm from "./AddExerciseForm";
+import { Card, Col, Row, Button, Spin } from "antd";
+import ExerciseModal from "./ExerciseModal";
 import WorkoutExerciseRow from "./WorkoutExerciseRow";
-import {
-  useFetchWorkoutExercisesQuery,
-  useCreateWorkoutExerciseMutation,
-  useFetchExercisesQuery,
-} from "../../services/exercise";
+import { useFetchWorkoutExercisesQuery } from "../../services/exercise";
+import { useLocation } from "react-router-dom";
+import { isPublicRoute } from "../../helper/locationHelper";
 
 const WorkoutExerciseListView = ({ workout }) => {
   const [showExerciseModal, setShowExerciseModal] = useState(false);
+  const location = useLocation();
   const { data: workoutExercises, isLoading } = useFetchWorkoutExercisesQuery(
     workout.id
   );
-  const { data: exercises } = useFetchExercisesQuery();
-  const [createWorkoutExercise, { isLoading: isCreating }] =
-    useCreateWorkoutExerciseMutation();
-  const [form] = Form.useForm();
+
   const onClose = () => {
     setShowExerciseModal(false);
   };
@@ -38,54 +34,31 @@ const WorkoutExerciseListView = ({ workout }) => {
           <Col span={10} offset={1}>
             <h3>Workout Exercise</h3>
           </Col>
-          <Col span={12} offset={1} className="align-right">
-            <Button onClick={() => setShowExerciseModal(true)}>
-              Add Exercise
-            </Button>
-          </Col>
+          {isPublicRoute(location) ? null : (
+            <Col span={12} offset={1} className="align-right">
+              <Button onClick={() => setShowExerciseModal(true)}>
+                Add Exercise
+              </Button>
+            </Col>
+          )}
         </Row>
       </Card>
-      {(workoutExercises || []).map((exercise) => {
-        return <WorkoutExerciseRow key={exercise.id} exercise={exercise} />;
+      {(workoutExercises || []).map((workoutExercise) => {
+        return (
+          <WorkoutExerciseRow
+            key={workoutExercise.id}
+            workoutExercise={workoutExercise}
+          />
+        );
       })}
 
       {showExerciseModal && (
-        <Modal
-          title={`Create Exercise`}
-          open={showExerciseModal}
-          okText={"Save"}
-          confirmLoading={isCreating}
-          onOk={() => {
-            form
-              .validateFields()
-              .then((values) => {
-                const { exercise_id, ...rest } = values;
-                const { name, description } = exercises.find(
-                  (e) => e.id === exercise_id
-                );
-                const data = {
-                  name,
-                  description,
-                  workout_id: workout.id,
-                  ...rest,
-                };
-                createWorkoutExercise(data)
-                  .then((res) => {
-                    console.log(res);
-                    onClose();
-                  })
-                  .catch((err) => console.error(err));
-              })
-              .catch((info) => {
-                console.log("Validate Failed:", info);
-              });
-          }}
-          onCancel={onClose}
-          destroyOnClose
-          maskClosable={false}
-        >
-          <AddExerciseForm form={form} exercises={exercises} />
-        </Modal>
+        <ExerciseModal
+          visible={showExerciseModal}
+          onClose={onClose}
+          mode={"create"}
+          workout_id={workout.id}
+        />
       )}
     </div>
   );

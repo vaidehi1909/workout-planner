@@ -1,23 +1,26 @@
 import React from "react";
 import { Menu } from "antd";
+import { useLocation, Link } from "react-router-dom";
 import { ContainerOutlined, UsergroupAddOutlined } from "@ant-design/icons";
+import { getRouteType } from "../helper/locationHelper";
 
 const items = [
   {
-    label: "My Workouts",
-    key: "my_workouts",
+    label: <Link to="/my-workouts">My Workouts</Link>,
+    key: "my-workouts",
     icon: <ContainerOutlined />,
   },
   {
-    label: "Public Workouts",
-    key: "public_Workouts",
+    label: <Link to="/public-workouts">Public Workouts</Link>,
+    key: "public-workouts",
     icon: <UsergroupAddOutlined />,
   },
 ];
 
 const WorkoutSidebar = () => {
+  const location = useLocation();
   return (
-    <Menu defaultSelectedKeys={["my_workouts"]} mode="inline" items={items} />
+    <Menu selectedKeys={[getRouteType(location)]} mode="inline" items={items} />
   );
 };
 

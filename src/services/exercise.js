@@ -16,7 +16,7 @@ export const exerciseApi = createApi({
       invalidatesTags: ["Workout_Exercises"],
     }),
     updateWorkoutExercise: builder.mutation({
-      queryFn: async (id, payload) => {
+      queryFn: async ({ id, payload }) => {
         const { data, error } = await supabase
           .from("workout_exercises")
           .update(payload)
@@ -46,7 +46,7 @@ export const exerciseApi = createApi({
         return { data, error };
       },
       providesTags: (result) =>
-        result
+        (result || []).length > 0
           ? result.map(({ id }) => ({ type: "Workout_Exercises", id }))
           : ["Workout_Exercises"],
     }),
@@ -58,7 +58,7 @@ export const exerciseApi = createApi({
         return { data, error };
       },
       providesTags: (result) =>
-        result
+        (result || []).length > 0
           ? result.map(({ id }) => ({ type: "Exercises", id }))
           : ["Exercises"],
     }),

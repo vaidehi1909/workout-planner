@@ -1,5 +1,6 @@
 import React from "react";
-import { Form, Input, Select, Checkbox } from "antd";
+import { Form, Input, Select } from "antd";
+const { TextArea } = Input;
 const typeOptions = [
   {
     value: "back",
@@ -71,12 +72,8 @@ const WorkoutForm = ({ form, workout }) => {
       >
         <Select options={levelOptions} />
       </Form.Item>
-      <Form.Item
-        name="is_public"
-        valuePropName="checked"
-        wrapperCol={{ offset: 8, span: 16 }}
-      >
-        <Checkbox>Mark as Public</Checkbox>
+      <Form.Item label="Description" name="description">
+        <TextArea rows={4} />
       </Form.Item>
     </Form>
   );
