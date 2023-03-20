@@ -44,6 +44,7 @@ function App() {
     <BrowserRouter>
       <React.Suspense fallback={<>...</>}>
         <Routes>
+          <Route index element={<LoginForm />} />
           <Route path="login" element={<LoginForm />} />
           <Route path="signup" element={<SignupForm />} />
           <Route path="*" element={<PrivateOutlet />}>
